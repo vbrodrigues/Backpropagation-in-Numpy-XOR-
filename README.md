@@ -6,3 +6,6 @@ Backpropagation (retro-propagação) é usado em Neural Networks (Redes Neurais)
 
 ## Momentum
 Técnica para acelerar o processo de treinamento na direção correta. Para isso, adiciona uma fração do vetor update anterior ao vetor update atual. Normalmente, compara-se com uma bola descendo uma ladeira, ganhando velocidade naquela direção.
+
+![Custo sem Momentum](Plot custo sem Momentum.png)
+![Custo com Momentum](Plot custo com Momentum.png)
