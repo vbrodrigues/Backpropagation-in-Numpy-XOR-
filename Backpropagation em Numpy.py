@@ -12,8 +12,8 @@ def cost_prime(o, y):
     return o - y
 
 #Hiperparâmetros
-lr = .1
-momentum = .9
+lr = .01
+momentum = .8
 
 #Dados de entrada
 X = np.asarray([[1, 0], [0, 1], [1, 1], [0, 0]])
