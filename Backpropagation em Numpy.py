@@ -22,8 +22,8 @@ y = np.asarray([[1], [1], [0], [0]])
 #Inicialização aleatória dos pesos e bias
 w1 = np.random.randn(2, 2)
 w2 = np.random.randn(1, 2)
-b1 = np.random.randn(2, 1)
-b2 = np.random.randn(1, 1)
+b1 = np.ones((2, 1))
+b2 = np.ones((1, 1))
 
 def forward(X, w1, w2, b1, b2):
     for index in range(len(X)):
