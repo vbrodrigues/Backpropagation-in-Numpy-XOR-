@@ -12,7 +12,7 @@ def cost_prime(o, y):
     return o - y
 
 #Hiperparâmetros
-lr = .01
+lr = .1
 momentum = .8
 
 #Dados de entrada
