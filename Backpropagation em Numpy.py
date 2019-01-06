@@ -6,7 +6,7 @@ def sigmoid(z):
     return 1 / (1 + np.e ** (-z))
 
 def sigmoid_prime(a):
-    return sigmoid(a) * (1 - sigmoid(a))
+    return (a) * (1 - (a))
 
 def cost_prime(o, y):
     return o - y
@@ -45,7 +45,7 @@ def train(X, y, w1, w2, b1, b2):
     
     #BACK
         #ERROS NAS CAMADAS
-    output_error = (a2 - y) ** 2
+    output_error = a2 - y
     hidden_error = np.dot(w2.T, output_error)
     
         #VETORES UPDATES
