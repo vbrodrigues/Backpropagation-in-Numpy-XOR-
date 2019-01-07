@@ -8,12 +8,9 @@ def sigmoid(z):
 def sigmoid_prime(a):
     return a * (1 - a)
 
-def cost_prime(o, y):
-    return o - y
-
 #Hiperparâmetros
-lr = .01
-momentum = .8
+lr = .05
+momentum = .9
 
 #Dados de entrada
 X = np.asarray([[1, 0], [0, 1], [1, 1], [0, 0]])
@@ -29,9 +26,9 @@ def forward(X, w1, w2, b1, b2):
     for index in range(len(X)):
         X_i = X[index].reshape((2, 1))
         y_i = y[index].reshape((1, 1))
-        z1 = np.dot(w1, X_i) + b1
+        z1 = np.matmul(w1, X_i) + b1
         a1 = sigmoid(z1)
-        z2 = np.dot(w2, a1) + b2
+        z2 = np.matmul(w2, a1) + b2
         a2 = sigmoid(z2)
         print("\tPrevisão: ", a2[0][0])
 
@@ -39,9 +36,9 @@ def train(X, y, w1, w2, b1, b2):
     #FORWARD
     X = X.reshape((2, 1))
     y = y.reshape((1, 1))
-    z1 = np.dot(w1, X) + b1
+    z1 = np.matmul(w1, X) + b1
     a1 = sigmoid(z1)
-    z2 = np.dot(w2, a1) + b2
+    z2 = np.matmul(w2, a1) + b2
     a2 = sigmoid(z2)
     
     #BACK
@@ -50,13 +47,13 @@ def train(X, y, w1, w2, b1, b2):
 
         #ERROS NAS CAMADAS
     output_error = a2 - y
-    hidden_error = np.dot(w2.T, output_error)
+    hidden_error = np.matmul(w2.T, output_error)
     
         #VETORES UPDATES
     gradient2 = output_error * sigmoid_prime(a2) 
-    update_vector_2 = (momentum * update_vector_2) + np.dot(gradient2, a1.T)
+    update_vector_2 = (momentum * update_vector_2) + np.matmul(gradient2, a1.T)
     gradient1 = hidden_error * sigmoid_prime(a1)
-    update_vector_1 = (momentum * update_vector_1) + np.dot(gradient1, X.T)
+    update_vector_1 = (momentum * update_vector_1) + np.matmul(gradient1, X.T)
     
         #AJUSTAR PARÂMETROS
     w1 -= lr * update_vector_1
