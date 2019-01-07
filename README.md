@@ -9,6 +9,5 @@ Técnica para acelerar o processo de treinamento na direção correta. Para isso
 
 ### Custo sem Momentum
 ![Custo sem Momentum](Plot_custo_sem_Momentum.png)
-
 ### Custo com Momentum
 ![Custo com Momentum](Plot_custo_com_Momentum.png)
