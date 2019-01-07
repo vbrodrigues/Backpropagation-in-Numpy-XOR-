@@ -8,9 +8,6 @@ def sigmoid(z):
 def sigmoid_prime(a):
     return (a) * (1 - (a))
 
-def cost_prime(o, y):
-    return o - y
-
 #Hiperparâmetros
 lr = .1
 
@@ -28,9 +25,9 @@ def forward(X, w1, w2, b1, b2):
     for index in range(len(X)):
         X_i = X[index].reshape((2, 1))
         y_i = y[index].reshape((1, 1))
-        z1 = np.dot(w1, X_i) + b1
+        z1 = np.matmul(w1, X_i) + b1
         a1 = sigmoid(z1)
-        z2 = np.dot(w2, a1) + b2
+        z2 = np.matmul(w2, a1) + b2
         a2 = sigmoid(z2)
         print("\tPrevisão: ", a2[0][0])
 
@@ -38,21 +35,34 @@ def train(X, y, w1, w2, b1, b2):
     #FORWARD
     X = X.reshape((2, 1))
     y = y.reshape((1, 1))
-    z1 = np.dot(w1, X) + b1
+    z1 = np.matmul(w1, X) + b1
     a1 = sigmoid(z1)
-    z2 = np.dot(w2, a1) + b2
+    z2 = np.matmul(w2, a1) + b2
     a2 = sigmoid(z2)
     
     #BACK
+    
         #ERROS NAS CAMADAS
+    '''
+    Calculamos o erro na última camada e distribuímos esse erro nos weights das camadas anteriores. 
+    Como é um passo no backprop, transpomos a matriz dos weights. Assim, temos o erro na camada anterior.'''
     output_error = a2 - y
-    hidden_error = np.dot(w2.T, output_error)
+    hidden_error = np.matmul(w2.T, output_error)
     
         #VETORES UPDATES
+    '''
+    Se cost = sum(a2 - y) **2 / n, então a dCost/da2 é 2/n*(a2 - y). Podemos ignorar o 2/n, ficando a2 - y como derivada, que é o output_error
+        dCost/da2 = a2 - y. 
+        da2/dz2 = sigmoid_prime(a2). 
+        dz2/dw2 = a1.T.
+    Enquanto as duas primeiras derivadas são element-wise, a última é uma matmul dos gradientes com a transposta da ativação anterior
+        dCost/da2 * da2/dz2 x dz2/dw2 = output_error * sigmoid_prime(a2) x a1.T
+    Assim, achamos o quanto os weights tem que ser ajustados para diminuir o cost.
+    Para os biases, o delta (o quanto devem ser ajustados) é simplesmente o gradiente já calculado, pois dz2/db2 = 1.'''
     gradient2 = (a2 - y) * sigmoid_prime(a2) 
-    update_vector_2 = np.dot(gradient2, a1.T)
+    update_vector_2 = np.matmul(gradient2, a1.T)
     gradient1 = hidden_error * sigmoid_prime(a1)
-    update_vector_1 = np.dot(gradient1, X.T)
+    update_vector_1 = np.matmul(gradient1, X.T)
     
         #AJUSTAR PARÂMETROS
     w1 -= lr * update_vector_1
@@ -66,7 +76,7 @@ def train(X, y, w1, w2, b1, b2):
 errors = []
 cost = []
 step = []
-for i in range(200000):
+for i in range(100000):
     index = np.random.randint(len(X))
     train(X[index], y[index], w1, w2, b1, b2)
     
