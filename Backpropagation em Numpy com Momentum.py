@@ -6,6 +6,7 @@ def sigmoid(z):
     return 1 / (1 + np.e ** (-z))
 
 def sigmoid_prime(a):
+    #Estamos considerando que "a" já passou pela sigmoide, então a derivada se dá por:
     return a * (1 - a)
 
 #Hiperparâmetros
@@ -49,14 +50,15 @@ def train(X, y, w1, w2, b1, b2):
     #BACK
     global update_vector_1
     global update_vector_2
-
-        #ERROS NAS CAMADAS
+    '''
+    Estamos calculando com momentum, que considera uma parcela do update_vector anterior para calcular o atual. Com um momentum de 0.9, adicionamos 90%
+    do update_vector anterior ao update_vector atual. Assim, estaremos ganhando velocidade na direção anterior.
+    '''
     output_error = a2 - y
-    hidden_error = np.matmul(w2.T, output_error)
-    
-        #VETORES UPDATES
     gradient2 = output_error * sigmoid_prime(a2) 
     update_vector_2 = (momentum * update_vector_2) + np.matmul(gradient2, a1.T)
+ 
+    hidden_error = np.matmul(w2.T, output_error) * sigmoid_prime(a2)
     gradient1 = hidden_error * sigmoid_prime(a1)
     update_vector_1 = (momentum * update_vector_1) + np.matmul(gradient1, X.T)
     
