@@ -56,15 +56,15 @@ def train(X, y, w1, w2, b1, b2):
     '''
     output_error = a2 - y
     gradient2 = output_error * sigmoid_prime(a2) 
-    update_vector_2 = (momentum * update_vector_2) + np.matmul(gradient2, a1.T)
+    update_vector_2 = np.matmul(gradient2, a1.T)
  
     hidden_error = np.matmul(w2.T, output_error) * sigmoid_prime(a2)
     gradient1 = hidden_error * sigmoid_prime(a1)
-    update_vector_1 = (momentum * update_vector_1) + np.matmul(gradient1, X.T)
+    update_vector_1 = np.matmul(gradient1, X.T)
     
         #AJUSTAR PARÂMETROS
-    w1 -= lr * update_vector_1
-    w2 -= lr * update_vector_2
+    w1 -= (momentum * update_vector_1) + lr * update_vector_1
+    w2 -= (momentum * update_vector_2) + lr * update_vector_2
     b1 -= lr * gradient1
     b2 -= lr * gradient2
     
