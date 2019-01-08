@@ -16,16 +16,21 @@ momentum = .9
 X = np.asarray([[1, 0], [0, 1], [1, 1], [0, 0]])
 y = np.asarray([[1], [1], [0], [0]])
 
+#Arquitetura
+n_inputs = 2
+n_hidden = 4
+n_output = 1
+
 #Inicialização aleatória dos pesos e bias
-w1 = np.random.randn(2, 2)
-w2 = np.random.randn(1, 2)
-b1 = np.ones((2, 1))
-b2 = np.ones((1, 1))
+w1 = np.random.randn(n_hidden, n_inputs)
+w2 = np.random.randn(n_output, n_hidden)
+b1 = np.ones((n_hidden, 1))
+b2 = np.ones((n_output, 1))
 
 def forward(X, w1, w2, b1, b2):
     for index in range(len(X)):
-        X_i = X[index].reshape((2, 1))
-        y_i = y[index].reshape((1, 1))
+        X_i = X[index].reshape((n_inputs, 1))
+        y_i = y[index].reshape((n_output, 1))
         z1 = np.matmul(w1, X_i) + b1
         a1 = sigmoid(z1)
         z2 = np.matmul(w2, a1) + b2
@@ -34,8 +39,8 @@ def forward(X, w1, w2, b1, b2):
 
 def train(X, y, w1, w2, b1, b2):
     #FORWARD
-    X = X.reshape((2, 1))
-    y = y.reshape((1, 1))
+    X = X.reshape((n_inputs, 1))
+    y = y.reshape((n_output, 1))
     z1 = np.matmul(w1, X) + b1
     a1 = sigmoid(z1)
     z2 = np.matmul(w2, a1) + b2
